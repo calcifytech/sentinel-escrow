@@ -13,7 +13,7 @@ Before running the agent, make sure you have installed:
 
 1.  Clone the repository:
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/calcifytech/sentinel-escrow.git
     cd sentinel-escrow
     ```
 2.  Copy `.env.example` to `.env` and fill in your OpenRouter / Gemini API key:
@@ -162,7 +162,7 @@ graph TD
    git add .
    git commit -m "Initial commit: sentinel-escrow ADK agent"
    git branch -M main
-   git remote add origin https://github.com/<your-username>/sentinel-escrow.git
+   git remote add origin https://github.com/calcifytech/sentinel-escrow.git
    git push -u origin main
    ```
 
@@ -192,5 +192,3 @@ graph TD
 ## Demo Script
 
 A spoken presentation script is available in [DEMO_SCRIPT.txt](DEMO_SCRIPT.txt).
-#   s e n t i n e l - e s c r o w  
- 
