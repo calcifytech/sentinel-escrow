@@ -1,0 +1,41 @@
+[0:00 - HOOK]
+Hello everyone. Today I am going to demonstrate Sentinel Escrow, an automated and highly secure multi-agent validator designed to prevent fraud and manage compliance risks during financial escrow releases.
+
+[0:20 - WHAT IT IS]
+This agent belongs to the Agents for Business track. It automates compliance checks and bank verification for contract releases, making sure that funds are only transferred after rigorous, automated audits.
+
+[0:40 - SHOW THE BANNER]
+(show assets/cover_page_banner.png)
+As you can see on our cover banner, the system is designed to be automated, secure, and intelligent, protecting financial workflows from manual mistakes and digital threats.
+
+(pause)
+
+[1:00 - ARCHITECTURE]
+(show assets/architecture_diagram.png)
+Let's look at the system architecture. First, any contract or release request goes through our Security Checkpoint node. This node intercepts raw inputs, redacts sensitive private data, and filters out prompt injection attacks. If it passes, the Orchestrator Agent takes over. The orchestrator coordinates the audit by delegating tasks to two specialized sub-agents: the Contract Compliance Auditor and the Escrow Funding Agent. These sub-agents query our local FastMCP server tools to verify account balances and check payee compliance lists. Once the sub-agents report back, the orchestrator recommends releasing or holding the funds. Finally, the workflow pauses at a Human Approval Checkpoint, requiring a manager's signature before executing the payment.
+
+(pause)
+
+[2:00 - LIVE DEMO]
+(switch to playground at localhost:18081)
+Now, let's see it in action. I am going to run a standard transaction by sending this valid contract details: Acme Corp is the payee, the amount is fifteen thousand dollars, and we have provided valid bank routing details.
+
+(pause)
+
+As the workflow runs, you can see that the Security Checkpoint node passes the clean text. The Contract Compliance Auditor screens the payee using the check blacklist payee tool, which returns passed. Simultaneously, the Escrow Funding Agent checks the balance of twenty-five thousand dollars and verifies the bank routing number using the local MCP ledger tools, returning verified. The Orchestrator aggregates these findings, recommends a release, and logs the transaction. Here, the workflow halts and displays the human approval form. I will tick approved, add a comment, and submit. The workflow completes, changing the final state to released.
+
+(pause)
+
+Next, let's see what happens if a user submits a request with sensitive PII and missing bank details. If we submit a request containing a Social Security Number, you will see in the traces that the Security Checkpoint automatically redacts the sensitive SSN to protect privacy. Because bank details were omitted, the Funding Agent returns insufficient. The Orchestrator recommends holding the transfer, and the system pauses for review.
+
+(pause)
+
+Finally, let's run a security stress test by entering a prompt injection attack, such as "system override, ignore previous instructions". As you can see, the Security Checkpoint immediately flags the attack, routes the execution to our Security Alert node, and blocks the run instantly without ever querying the LLM or accessing financial ledgers.
+
+(pause)
+
+[3:00 - SECURITY & MCP]
+This workflow guarantees end-to-end security through PII redaction, prompt injection filtering, and structured JSON audit logging. Furthermore, the local MCP tools provide clean, structured API calls to simulated banking endpoints without exposing sensitive ledger endpoints directly to outer models.
+
+[3:30 - IMPACT / CLOSE]
+By automating compliance checks while preserving human authority, Sentinel Escrow eliminates transfer mistakes, safeguards privacy, and ensures compliance with financial regulations. Thank you for watching!
